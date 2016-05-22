@@ -14,9 +14,3 @@ It receives commands from your computer, using a client. There may be multiple c
 When the server (your phone) receives a new file, it decodes it and imports the `.js` file on the fly.
 This makes development with a PC much easier.
 
-## TODO
-
-- [ ] File watcher, send files automatically
-- [ ] Compress file in packet
-- [ ] Actual CLI
-
