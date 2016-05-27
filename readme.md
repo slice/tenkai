@@ -14,3 +14,12 @@ It receives commands from your computer, using a client. There may be multiple c
 When the server (your phone) receives a new file, it decodes it and imports the `.js` file on the fly.
 This makes development with a PC much easier.
 
+## Getting Started
+
+First, import the `tenkai-server.js` file into BlockLauncher. Make sure to restart BlockLauncher. Then, open a new world. Type in `/tenkai start`. It will start the TCP server on your phone. You will be told when it starts. To stop the server, type in `/tenkai stop`. Make sure to do this when you are not going to use the server.
+
+### Sending Files
+
+Next, you must determine the local network IP of your phone. Normally, this starts with `10.`, however, this may not be the case for you. Generally, you can find this in the WiFi settings of your phone, or your router webpage.
+
+Next, run the client of your choice, supplying your phone's local IP and the filename of the file to send. When your phone receives the file, it will instantly be enabled. If your script was already on the phone, then it will become re-enabled on the fly.
