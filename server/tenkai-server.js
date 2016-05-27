@@ -165,11 +165,10 @@ var thread;
 	} else { // in Rhino or a web browser
 		root.base64 = base64;
 	}
-
 }(this));
 
 function error(message) {
-	print(message);
+	clientMessage(ChatColor.RED + "Tenkai/Error> " + ChatColor.WHITE + message);
 }
 
 function debug(message) {
@@ -196,13 +195,14 @@ function wait_for_connections() {
 			new java.io.InputStreamReader(socket.getInputStream())
 		);
 
+		// Continuously read lines from the client.
 		for (;;) {
 			// Read lines from the input and replace.
 			var line = String(in_.readLine()).replace(/[\n\r\t]+/g, "");
 
 			// Skip if it's empty.
-			if (line == undefined || line.length === 0
-				|| line === "null") continue;
+			if (line === undefined || line === null ||
+					line.length === 0 || line === "null") continue;
 
 			var tokens = line.split(" ");
 
@@ -213,7 +213,7 @@ function wait_for_connections() {
 
 			var force_client_disconnect = function() {
 				// Close all streams and sockets, goodbye!
-				out_.println("BRK"); // Tell the client we are stopping.
+				out_.println("BRK"); // Tell the client we are leaving.
 				out_.close();
 				in_.close();
 				socket.close();
@@ -228,8 +228,11 @@ function wait_for_connections() {
 					force_client_disconnect();
 					break;
 				} else if (tokens[0] === "FIL") {
+					// Receiving a file from the client.
+					// Fetch the file metadata.
 					var fileContents = tokens[1];
 					var fileName = tokens[2];
+
 					if (!fileContents || !fileName) {
 						error("Invalid FIL command.");
 					} else {
@@ -252,10 +255,15 @@ function wait_for_connections() {
 						info("Done.");
 					}
 				} else if (tokens[0] === "IDN") {
+					// Client has identified themselves.
+					// Identify back (handshake, kind of)
 					info("Client identified itself as " + (tokens[1] || "unknown"));
 					out_.println("IDNH TenkaiServerModPE");
 				}
 			} catch (e) {
+				// Exception occurred.
+				// Disconnect from the client.
+				error(e);
 				force_client_disconnect();
 			}
 		}
@@ -303,6 +311,9 @@ function procCmd(command) {
 			break;
 		case "stop":
 			stop_server();
+			break;
+		default:
+			info("Usage: /tenkai [start|stop]");
 			break;
 		}
 	}
