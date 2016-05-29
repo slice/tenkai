@@ -14,9 +14,9 @@ var client = new TenkaiClient(args[0]);
 client.connect(function() {
 	client.identify();
 	try {
-	client.send(args[1], function() {
-		client.leave();
-	});
+		client.send(args[1], function() {
+			client.leave();
+		});
 	} catch (e) {
 		console.error("[-] " + e);
 		client.leave();
