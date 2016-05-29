@@ -1,13 +1,6 @@
 import { base64 } from "./base64";
 import { global } from "./global";
 
-// Two base64s here because it has to do
-// with Browserify and Babel not playing nice, or the
-// function wrapper "root" thing in base64.js.
-// 
-// Might have to fix this later just because.
-var b64decode = base64.decode;
-
 class TenkaiServer {
 
 	/**
@@ -151,7 +144,7 @@ class TenkaiServer {
 							var importedFile = new java.io.File(modScriptsFolder,
 								fileName);
 							var writer = new java.io.PrintWriter(importedFile);
-							writer.write(b64decode(fileContents));
+							writer.write(base64.decode(fileContents));
 							writer.flush();
 							writer.close();
 
