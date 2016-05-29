@@ -1,10 +1,10 @@
-# tenkai (展開)
+# `tenkai` (展開)
 
 Develop ModPE scripts on your PC, deploy them on your phone instantly over the air.
 
 ## How this works
 
-`tenkai-server.min.js` runs on your phone, in BlockLauncher. It is a TCP server that runs in the background, on a separate thread.
+`tenkai.min.js`/`tenkai.js` runs on your phone, in BlockLauncher. It is a TCP server that runs in the background, on a separate thread.
 It receives commands from your computer, using a client or client library.
 
 - `tenkai-client.py`
@@ -22,16 +22,30 @@ This makes development with a PC much easier.
 
 ## Security
 
-**NOTE: PLEASE READ!** This software is insecure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SDCard. Please be aware of this; this is your only disclaimer.
+**NOTE: PLEASE READ!** This software not secure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SD Card (`/sdcard/`). Please be aware of this; this is your only disclaimer.
 
-Tips to not get pwned:
+If you're on your own private, secured network, then you shouldn't worry about anything.
 
-- Be on your own secure network.
-- Don't let other people onto your network that you don't trust.
+## Building
+
+Make sure that the repository is cloned.
+
+```sh
+$ cd $REPO # Navigate into the repo.
+$ cd server/ # Navigate into the server directory.
+$ npm install -g grunt-cli # If Grunt isn't already installed.
+$ npm install # Install dependencies.
+$ grunt # Compile.
+
+# Server located at dist/tenkai.min.js. Use this if you don't plan on hacking Tenkai.
+# Use dist/tenkai.js while developing the server to see where errors occur.
+# 
+# You can transfer the `tenkai[.min].js` file to your phone via FTP, Dropbox, ...
+```
 
 ## Getting Started
 
-First, import the `tenkai-server.js` file into BlockLauncher. Make sure to restart BlockLauncher. Then, open a new world. Type in `/tenkai start`. It will start the TCP server on your phone. You will be told when it starts. To stop the server, type in `/tenkai stop`. Make sure to do this when you are not going to use the server.
+First, make sure you have built the Tenkai server (instructions above.) Make sure to restart BlockLauncher. Then, open a new world and type in `/tenkai start`. It will start the server on your phone. To stop the server, type in `/tenkai stop`, and use `/tenkai restart` to restart the server if it is already running. (If it isn't running, then it will simply start the server.)
 
 ### Sending Files
 
@@ -41,4 +55,8 @@ Next, run the client of your choice, supplying your phone's local IP and the fil
 
 ### Erroring Scripts
 
-If a script you sent threw an error, Tenkai will print it out. It will continue to accept connections to the server. Because of this, you can simply resend the (fixed) script and it will automatically reimport.
+If a script you sent threw an error, Tenkai will print it the error message. It will continue to accept connections to the server. Because of this, you can simply resend the (fixed) script and it will automatically be evaluated.
+
+### The server is stuck!
+
+If you are sending files and the server doesn't do anything, then it may be stuck in limbo. This occurs when a client or client library disconnects from the server but fails to inform the server before doing so. You can fix this by simply restarting BlockLauncher, or typing in `/tenkai restart` to restart the server.
