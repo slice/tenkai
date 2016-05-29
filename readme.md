@@ -24,7 +24,7 @@ This makes development with a PC much easier.
 
 **NOTE: PLEASE READ!** This software not secure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SD Card (`/sdcard/`). Please be aware of this; this is your only disclaimer.
 
-If you're on your own private, secured network, then you shouldn't worry about anything.
+If you're on your own private secured network then you shouldn't worry about anything unless you advertise your WiFi password. <sup>Don't do that.</sup>
 
 ## Building
 
