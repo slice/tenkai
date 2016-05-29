@@ -20,6 +20,15 @@ It receives commands from your computer, using a client or client library.
 When the server (your phone) receives a new file, it decodes it and imports the `.js` file on the fly.
 This makes development with a PC much easier.
 
+## Security
+
+**NOTE: PLEASE READ! ** This software is insecure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SDCard. Please be aware of this; this is your only disclaimer.
+
+Tips to not get pwned:
+
+- Be on your own secure network.
+- Don't let other people onto your network that you don't trust.
+
 ## Getting Started
 
 First, import the `tenkai-server.js` file into BlockLauncher. Make sure to restart BlockLauncher. Then, open a new world. Type in `/tenkai start`. It will start the TCP server on your phone. You will be told when it starts. To stop the server, type in `/tenkai stop`. Make sure to do this when you are not going to use the server.
