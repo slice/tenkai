@@ -181,8 +181,10 @@ function info(message) {
 }
 
 function wait_for_connections() {
+	wait_for_socket:
 	for (;;) {
-		debug("Waiting for incoming connections...");
+		info("Waiting for incoming connections...");
+
 		// Wait for incoming connections.
 		var socket = server.accept();
 
@@ -196,6 +198,7 @@ function wait_for_connections() {
 		);
 
 		// Continuously read lines from the client.
+		read_from_client:
 		for (;;) {
 			// Read lines from the input and replace.
 			var line = String(in_.readLine()).replace(/[\n\r\t]+/g, "");
@@ -226,7 +229,7 @@ function wait_for_connections() {
 				if (tokens[0] === "BRK") {
 					// Client is leaving.
 					force_client_disconnect();
-					break;
+					break read_from_client;
 				} else if (tokens[0] === "FIL") {
 					// Receiving a file from the client.
 					// Fetch the file metadata.
@@ -265,14 +268,18 @@ function wait_for_connections() {
 				// Disconnect from the client.
 				error(e);
 				force_client_disconnect();
+				break read_from_client;
 			}
 		}
 	}
 }
 
 function stop_server() {
-	debug("Server stopped.");
-	if (server) server.close();
+	if (server) {
+		server.close();
+		server = null;
+		info("Server stopped.");
+	}
 }
 
 function _start_server() {
