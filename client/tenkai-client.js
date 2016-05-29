@@ -59,6 +59,8 @@ TenkaiClient.prototype.identify = function(_id) {
  * the server.
  */
 TenkaiClient.prototype.leave = function() {
+	console.log("[!] Left.");
+	
 	// Indicate that we are leaving to the server.
 	// Without doing this, it can leave the server confused,
 	// and stuck in limbo.
@@ -97,6 +99,7 @@ TenkaiClient.prototype.connect = function(callback) {
 	// Make sure to destroy our socket.
 	this.socket.on("error", function(ex) {
 		console.error("[-] " + ex);
+		try { this.leave(); } catch(_) {}
 		this.socket.destroy();
 	}.bind(this));
 
@@ -110,6 +113,7 @@ TenkaiClient.prototype.connect = function(callback) {
 	// the socket.
 	this.socket.on("close", function() {
 		console.warn("[-] Connection closed.");
+		try { this.leave(); } catch(_) {}
 		this.socket.destroy();
 	}.bind(this));
 };
@@ -129,6 +133,7 @@ TenkaiClient.prototype.send = function(filePath, callback) {
 	fs.readFile(filePath, function(err, data) {
 		if (err) {
 			console.error("[-] Error reading " + filePath + ": " + err);
+			try { this.leave(); } catch(_) {}
 			throw err;
 		} else {
 			// Get the basename of our file.
