@@ -4,7 +4,7 @@ Develop ModPE scripts on your PC, deploy them on your phone instantly over the a
 
 ## How this works
 
-`tenkai-server.js` runs on your phone, in BlockLauncher. It is a TCP server that runs in the background, on a separate thread.
+`tenkai-server.min.js` runs on your phone, in BlockLauncher. It is a TCP server that runs in the background, on a separate thread.
 It receives commands from your computer, using a client or client library.
 
 - `tenkai-client.py`

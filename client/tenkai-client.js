@@ -11,6 +11,7 @@ var path = require("path");
 function TenkaiClient(ip) {
 	this.ip = ip;
 	this.port = 4989;
+	this.closed = false;
 	this.socket = null;
 }
 
@@ -50,6 +51,8 @@ TenkaiClient.prototype.identify = function(_id) {
 	// Default -- "TenkaiClientNode"
 	var id = (_id || "TenkaiClientNode");
 
+	console.log("[*] Identifying as " + id);
+
 	this.socket.write("IDN " + id + "\n");
 };
 
@@ -59,15 +62,24 @@ TenkaiClient.prototype.identify = function(_id) {
  * the server.
  */
 TenkaiClient.prototype.leave = function() {
+	// Do not attempt to leave
+	// if the socket is already closed.
+	if (this.closed) return;
+
 	console.log("[!] Left.");
 	
 	// Indicate that we are leaving to the server.
 	// Without doing this, it can leave the server confused,
 	// and stuck in limbo.
-	this.socket.write("BRK\n");
-
-	// Destroy our socket because we are done here.
-	this.socket.destroy();
+	try {
+		this.socket.write("BRK\n", undefined, function() {
+			console.log("[*] Socket destroyed because we left.");
+			// Destroy our socket because we are done here.
+			this.socket.destroy();
+		}.bind(this));
+	} catch (e) {
+		console.error("[-] While leaving: " + e);
+	}
 };
 
 /**
@@ -98,9 +110,12 @@ TenkaiClient.prototype.connect = function(callback) {
 	// Error occurred. Uh oh.
 	// Make sure to destroy our socket.
 	this.socket.on("error", function(ex) {
-		console.error("[-] " + ex);
-		try { this.leave(); } catch(_) {}
+		console.error("[-] Socket error: " + ex);
+		// Do not attempt to leave, because the socket
+		// may have already been closed because of this error.
+		// try { this.leave(); } catch(_) {}
 		this.socket.destroy();
+		this.closed = true;
 	}.bind(this));
 
 	// Got some data.
@@ -112,9 +127,9 @@ TenkaiClient.prototype.connect = function(callback) {
 	// When our connection is closed, destroy
 	// the socket.
 	this.socket.on("close", function() {
-		console.warn("[-] Connection closed.");
-		try { this.leave(); } catch(_) {}
+		console.warn("[!] Socket close: Connection was closed.");
 		this.socket.destroy();
+		this.closed = true;
 	}.bind(this));
 };
 

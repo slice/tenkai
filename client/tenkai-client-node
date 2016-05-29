@@ -15,6 +15,7 @@ client.connect(function() {
 	client.identify();
 	try {
 		client.send(args[1], function() {
+			console.log("[+] Operation succeeded. Leaving...");
 			client.leave();
 		});
 	} catch (e) {
