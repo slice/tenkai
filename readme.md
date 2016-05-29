@@ -29,3 +29,7 @@ First, import the `tenkai-server.js` file into BlockLauncher. Make sure to resta
 Next, you must determine the local network IP of your phone. Normally, this starts with `10.`, however, this may not be the case for you. Generally, you can find this in the WiFi settings of your phone, or your router webpage.
 
 Next, run the client of your choice, supplying your phone's local IP and the filename of the file to send. When your phone receives the file, it will instantly be enabled. If your script was already on the phone, then it will become re-enabled on the fly.
+
+### Erroring Scripts
+
+If a script you sent threw an error, Tenkai will print it out. It will continue to accept connections to the server. Because of this, you can simply resend the (fixed) script and it will automatically reimport.
