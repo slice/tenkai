@@ -22,7 +22,7 @@ This makes development with a PC much easier.
 
 ## Security
 
-**NOTE: PLEASE READ! ** This software is insecure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SDCard. Please be aware of this; this is your only disclaimer.
+**NOTE: PLEASE READ!** This software is insecure. Anybody scanning the network can evaluate JavaScript on your phone without you even knowing unless you are constantly watching your phone. This also means they can modify your SDCard. Please be aware of this; this is your only disclaimer.
 
 Tips to not get pwned:
 
