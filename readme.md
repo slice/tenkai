@@ -5,11 +5,17 @@ Develop ModPE scripts on your PC, deploy them on your phone instantly over the a
 ## How this works
 
 `tenkai-server.js` runs on your phone, in BlockLauncher. It is a TCP server that runs in the background, on a separate thread.
-It receives commands from your computer, using a client. There may be multiple clients in the future, but right now, there is only one.
+It receives commands from your computer, using a client or client library.
 
 - `tenkai-client.py`
 	- Tenkai client written in Python.
 	- Usage: `tenkai-client.py [phone ip] [js file to send]`
+- `tenkai-client.js`
+    - Tenkai client library written in Node.
+    - Intended to be used by other scripts, using `require`.
+- `tenkai-client-node`
+    - Tenkai client written in Node, uses `tenkai-client.js` to connect to servers.
+    - Usage: `tenkai-client-node [phone ip] [js file to send]` 
 
 When the server (your phone) receives a new file, it decodes it and imports the `.js` file on the fly.
 This makes development with a PC much easier.
